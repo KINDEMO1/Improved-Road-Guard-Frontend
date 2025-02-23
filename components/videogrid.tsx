@@ -18,10 +18,12 @@ const VideoGrid: React.FC<VideoGridProps> = ({
   return (
     <div
       id="video-grid"
-      className={`h-full grid gap-2 md:gap-4`}
+      className={`h-full grid gap-2 md:gap-2`}
       style={{
         gridTemplateColumns: `repeat(${Math.ceil(Math.sqrt(gridSize))}, 1fr)`,
-        gridTemplateRows: `repeat(${Math.ceil(gridSize / Math.ceil(Math.sqrt(gridSize)))}, 1fr)`,
+        gridTemplateRows: `repeat(${Math.ceil(
+          gridSize / Math.ceil(Math.sqrt(gridSize))
+        )}, 1fr)`,
       }}
     >
       {Array.from({ length: gridSize }).map((_, index) => (

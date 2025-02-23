@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";  // Use next/navigation for App Router
+import { useRouter } from "next/navigation"; // Use next/navigation for App Router
 import {
   Sheet,
   SheetContent,
@@ -15,7 +15,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 
 const AvatarSidebar = () => {
-  const router = useRouter();  // Use useRouter from next/navigation
+  const router = useRouter(); // Use useRouter from next/navigation
 
   const navigateToDashboard = () => {
     router.push("/dashboard");
@@ -46,10 +46,18 @@ const AvatarSidebar = () => {
         </SheetHeader>
 
         <div className="flex flex-col gap-4 mt-4">
-          <Button variant="outline" className="w-full" onClick={navigateToDashboard}>
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={navigateToDashboard}
+          >
             Go to Dashboard
           </Button>
-          <Button variant="outline" className="w-full" onClick={navigateToUserLogs}>
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={navigateToUserLogs}
+          >
             User Logs
           </Button>
           <Button variant="destructive" className="w-full" onClick={signOut}>
@@ -59,8 +67,12 @@ const AvatarSidebar = () => {
 
         <Separator className="my-4" />
 
-        <SheetFooter>
-          <Button variant="ghost" className="w-full text-muted-foreground" onClick={navigateToAbout}>
+        <SheetFooter className="mt-[575px]">
+          <Button
+            variant="outline" // Match "Go to Dashboard" layout
+            className="w-full"
+            onClick={navigateToAbout}
+          >
             About
           </Button>
         </SheetFooter>

@@ -7,7 +7,10 @@ import VideoGrid from "@/components/videogrid";
 const CameraSurveillanceDashboard: React.FC = () => {
   const [gridSize, setGridSize] = useState<number>(1);
   const [selectedVideo, setSelectedVideo] = useState<number | null>(null);
-  const [clickState, setClickState] = useState<{ count: number; lastClickTime: number }>({
+  const [clickState, setClickState] = useState<{
+    count: number;
+    lastClickTime: number;
+  }>({
     count: 0,
     lastClickTime: 0,
   });
@@ -47,7 +50,9 @@ const CameraSurveillanceDashboard: React.FC = () => {
         }
         setClickState({ count: newCount, lastClickTime: currentTime });
       } else {
-        setSelectedVideo((prevSelected) => (prevSelected === index ? null : index));
+        setSelectedVideo((prevSelected) =>
+          prevSelected === index ? null : index
+        );
         setClickState({ count: 1, lastClickTime: currentTime });
       }
     },
@@ -123,7 +128,7 @@ const CameraSurveillanceDashboard: React.FC = () => {
           onReloadCamera={handleReloadCamera} // Pass reload handler to Sidebar
         />
 
-        <div className="flex-1 bg-gray-900 p-4 md:p-6">
+        <div className="flex-1 bg-gray-900 p-4 md:p-6 pb-12">
           <VideoGrid
             gridSize={gridSize}
             selectedVideo={selectedVideo}

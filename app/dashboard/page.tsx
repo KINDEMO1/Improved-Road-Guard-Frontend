@@ -1,13 +1,29 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter
-
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from "recharts";
+import { useRouter } from "next/navigation";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+} from "recharts";
 import { FiRefreshCw, FiDownload, FiCamera } from "react-icons/fi";
 
 // ShadCN components
 import { Button } from "@/components/ui/button";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const performanceData = [
@@ -20,7 +36,7 @@ const performanceData = [
 ];
 
 const PerformanceDashboard = () => {
-  const router = useRouter(); // Initialize router
+  const router = useRouter();
   const [selectedChart, setSelectedChart] = useState("speed");
   const [timeRange, setTimeRange] = useState("1d");
   const [loading, setLoading] = useState(false);
@@ -36,7 +52,9 @@ const PerformanceDashboard = () => {
 
   const handleExport = () => {
     const dataStr = JSON.stringify(performanceData);
-    const dataUri = `data:application/json;charset=utf-8,${encodeURIComponent(dataStr)}`;
+    const dataUri = `data:application/json;charset=utf-8,${encodeURIComponent(
+      dataStr
+    )}`;
     const exportFileDefaultName = "performance_data.json";
 
     const linkElement = document.createElement("a");
@@ -50,15 +68,17 @@ const PerformanceDashboard = () => {
   };
 
   const handleBackToHome = () => {
-    router.push("/home"); // Redirect to the home page
+    router.push("/home");
   };
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
-        <Card className="mb-6">
+        <Card className="mb-6 shadow-2xl shadow-black/50">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold text-gray-800">Performance Dashboard</CardTitle>
+            <CardTitle className="text-2xl font-bold text-gray-800">
+              Performance Dashboard
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -66,20 +86,31 @@ const PerformanceDashboard = () => {
               <div className="flex gap-4">
                 <Button
                   onClick={() => setSelectedChart("speed")}
-                  className={`px-4 py-2 ${selectedChart === "speed" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-100"}`}
+                  className={`px-4 py-2 ${
+                    selectedChart === "speed"
+                      ? "bg-blue-500 text-white"
+                      : "bg-white text-gray-700 hover:bg-gray-100"
+                  }`}
                 >
                   Speed Chart
                 </Button>
                 <Button
                   onClick={() => setSelectedChart("logs")}
-                  className={`px-4 py-2 ${selectedChart === "logs" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-100"}`}
+                  className={`px-4 py-2 ${
+                    selectedChart === "logs"
+                      ? "bg-blue-500 text-white"
+                      : "bg-white text-gray-700 hover:bg-gray-100"
+                  }`}
                 >
                   Logs Chart
                 </Button>
               </div>
 
               {/* Time Range Dropdown */}
-              <Select value={timeRange} onValueChange={(value) => setTimeRange(value)}>
+              <Select
+                value={timeRange}
+                onValueChange={(value) => setTimeRange(value)}
+              >
                 <SelectTrigger className="bg-white border border-gray-300 rounded-md px-4 py-2 w-auto max-w-xs">
                   <SelectValue />
                 </SelectTrigger>
@@ -106,7 +137,9 @@ const PerformanceDashboard = () => {
                   className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
                   disabled={loading}
                 >
-                  <FiRefreshCw className={`inline ${loading ? "animate-spin" : ""}`} />
+                  <FiRefreshCw
+                    className={`inline ${loading ? "animate-spin" : ""}`}
+                  />
                   <span className="ml-2">Refresh</span>
                 </Button>
 
@@ -129,12 +162,16 @@ const PerformanceDashboard = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="shadow-2xl shadow-black/50">
           <CardContent>
             {selectedChart === "speed" ? (
-              <h2 className="h-[20px] mt-6 text-xl font-semibold mb-4">Speed Over Time</h2>
+              <h2 className="h-[20px] mt-6 text-xl font-semibold mb-4">
+                Speed Over Time
+              </h2>
             ) : (
-              <h2 className="h-[20px] mt-6 text-xl font-semibold mb-4">Logs Over Time</h2>
+              <h2 className="h-[20px] mt-6 text-xl font-semibold mb-4">
+                Logs Over Time
+              </h2>
             )}
             <div className="h-[700px] mt-6">
               <ResponsiveContainer width="100%" height="100%">
@@ -171,7 +208,10 @@ const PerformanceDashboard = () => {
         </Card>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-6" role="alert">
+          <div
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-6"
+            role="alert"
+          >
             <strong className="font-bold">Error!</strong>
             <span className="block sm:inline"> {error}</span>
           </div>

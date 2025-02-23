@@ -1,21 +1,30 @@
 "use client";
 
 import React, { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+import Header from "@/components/allheader"; // Imported Header
 
-// Importing ShadCN components individually
+// Importing ShadCN components
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardContent, CardTitle, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 
-const SignInPage = () => {
-  const [formData, setFormData] = useState<{ email: string; password: string }>({
+const SignUpPage = () => {
+  const [formData, setFormData] = useState<{
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }>({
     email: "",
     password: "",
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [showPassword, setShowPassword] = useState(false);
@@ -23,16 +32,23 @@ const SignInPage = () => {
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
+
     if (!formData.email) {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Please enter a valid email";
     }
+
     if (!formData.password) {
       newErrors.password = "Password is required";
     } else if (formData.password.length < 8) {
       newErrors.password = "Password must be at least 8 characters";
     }
+
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -43,9 +59,9 @@ const SignInPage = () => {
       setIsLoading(true);
       try {
         await new Promise((resolve) => setTimeout(resolve, 2000));
-        console.log("Form submitted:", formData);
+        console.log("Account created:", formData);
       } catch (error) {
-        console.error("Login error:", error);
+        console.error("Sign up error:", error);
       } finally {
         setIsLoading(false);
       }
@@ -61,114 +77,109 @@ const SignInPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md space-y-8">
-        <CardHeader>
-          <CardTitle className="text-center text-3xl font-bold tracking-tight text-gray-900">
-            Sign in to your account
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email address</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleChange}
-                className={errors.email ? "border-red-500" : ""}
-                aria-invalid={errors.email ? "true" : "false"}
-              />
-              {errors.email && (
-                <p className="text-sm text-red-500">{errors.email}</p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
+    <div className="min-h-screen flex flex-col">
+      <Header /> {/* Added Header */}
+      <main className="flex-grow flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <Card className="w-full max-w-md space-y-8 shadow-2xl shadow-black/70">
+          <CardHeader>
+            <CardTitle className="text-center text-3xl font-bold tracking-tight text-gray-900">
+              Create Your Account
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email address</Label>
                 <Input
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="current-password"
-                  placeholder="Enter your password"
-                  value={formData.password}
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
                   onChange={handleChange}
-                  className={errors.password ? "border-red-500" : ""}
-                  aria-invalid={errors.password ? "true" : "false"}
+                  className={errors.email ? "border-red-500" : ""}
+                  aria-invalid={errors.email ? "true" : "false"}
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2"
-                >
-                  {showPassword ? (
-                    <EyeOffIcon className="h-4 w-4 text-gray-500" />
-                  ) : (
-                    <EyeIcon className="h-4 w-4 text-gray-500" />
-                  )}
-                </button>
+                {errors.email && (
+                  <p className="text-sm text-red-500">{errors.email}</p>
+                )}
               </div>
-              {errors.password && (
-                <p className="text-sm text-red-500">{errors.password}</p>
-              )}
-            </div>
 
-            <div className="flex items-center justify-between">
-              <div className="text-sm">
-                <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
-                  Forgot your password?
-                </a>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="new-password"
+                    placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className={errors.password ? "border-red-500" : ""}
+                    aria-invalid={errors.password ? "true" : "false"}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2"
+                  >
+                    {showPassword ? (
+                      <EyeOffIcon className="h-4 w-4 text-gray-500" />
+                    ) : (
+                      <EyeIcon className="h-4 w-4 text-gray-500" />
+                    )}
+                  </button>
+                </div>
+                {errors.password && (
+                  <p className="text-sm text-red-500">{errors.password}</p>
+                )}
               </div>
-            </div>
 
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isLoading}
-            >
-              {isLoading ? "Signing in..." : "Sign in"}
-            </Button>
-          </form>
-
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <Separator />
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  autoComplete="new-password"
+                  placeholder="Confirm your password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  className={errors.confirmPassword ? "border-red-500" : ""}
+                  aria-invalid={errors.confirmPassword ? "true" : "false"}
+                />
+                {errors.confirmPassword && (
+                  <p className="text-sm text-red-500">
+                    {errors.confirmPassword}
+                  </p>
+                )}
               </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with</span>
-              </div>
-            </div>
 
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              <Button variant="outline" className="w-full">
-                <FcGoogle className="mr-2 h-4 w-4" />
-                Google
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? "Creating Account..." : "Sign Up"}
               </Button>
-              <Button variant="outline" className="w-full">
-                <FaGithub className="mr-2 h-4 w-4" />
-                GitHub
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <p className="text-center text-sm text-gray-600 w-full">
-            Don&apos;t have an account?{" "}
-            <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
-              Create one now
-            </a>
-          </p>
-        </CardFooter>
-      </Card>
+            </form>
+          </CardContent>
+          <CardFooter>
+            <p className="text-center text-sm text-gray-600 w-full">
+              Already have an account?{" "}
+              <a
+                href="#"
+                className="font-medium text-blue-600 hover:text-blue-500"
+              >
+                Sign in
+              </a>
+            </p>
+          </CardFooter>
+        </Card>
+      </main>
+      <footer className="bg-[#800000] text-white text-center py-4">
+        © 2025 Batangas State University. All rights reserved.
+      </footer>
     </div>
   );
 };
 
-export default SignInPage;
+export default SignUpPage;
